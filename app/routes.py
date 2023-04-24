@@ -29,3 +29,4 @@ def handle_planet():
         })
 
     return jsonify(planet_response)
+
