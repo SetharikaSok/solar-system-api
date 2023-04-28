@@ -74,6 +74,7 @@ def handle_planets():
             name = request_body["name"],
             color = request_body["color"],
             description = request_body["description"] 
+
     )
 
     db.session.add(new_planet)
