@@ -75,6 +75,7 @@ def handle_planets():
             color = request_body["color"],
             description = request_body["description"] 
 
+
     )
 
     db.session.add(new_planet)
@@ -95,3 +96,16 @@ def read_all_planets():
         })
     return jsonify(planets_response), 200
 
+#define a route for getting a single crystal
+#GET /planet/planet_id
+
+@planet_bp.route("/<planet_id>", methods=["GET"])
+def read_single_planet(planet_id):
+    planet = Planet.query.get(planet_id)
+
+    return {
+            "id": planet.id,
+            "name": planet.name,
+            "color": planet.color,
+            "description": planet.description
+        },200
