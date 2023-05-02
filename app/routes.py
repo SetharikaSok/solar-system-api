@@ -82,8 +82,15 @@ def handle_planets():
 
 @planet_bp.route("", methods=['GET'])
 def read_all_planets():
+    name_query = request.args.get("name")
+
+    if name_query:
+        planets = Planet.query.filter_by(name = name_query)
+    else:
+
+        planets = Planet.query.all()
+
     planets_response = []
-    planets = Planet.query.all()
     for planet in planets:
         planets_response.append({
             "id": planet.id,
@@ -133,3 +140,4 @@ def delete_planet(planet_id):
     db.session.commit()
 
     return make_response(f"Planet #{planet_id} successfully deleted!")
+
