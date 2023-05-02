@@ -72,13 +72,11 @@ def handle_planets():
     new_planet = Planet (
             name = request_body["name"],
             color = request_body["color"],
-            description = request_body["description"] 
-
-
+            description = request_body["description"]
     )
 
     db.session.add(new_planet)
-    db .session.commit()
+    db.session.commit()
 
     return make_response(f"planet {new_planet.name} succesfully created", 201)
 
