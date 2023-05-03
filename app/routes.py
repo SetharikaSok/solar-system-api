@@ -83,11 +83,15 @@ def handle_planets():
 @planet_bp.route("", methods=['GET'])
 def read_all_planets():
     name_query = request.args.get("name")
+    color_query = request.args.get("color")
 
     if name_query:
         planets = Planet.query.filter_by(name = name_query)
-    else:
 
+    elif color_query:
+        planets = Planet.query.filter_by(color = color_query)
+
+    else:
         planets = Planet.query.all()
 
     planets_response = []
