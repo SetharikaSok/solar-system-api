@@ -67,7 +67,7 @@ planet_bp = Blueprint("planets", __name__, url_prefix="/planets")
 
 #definbe a route for creating a planet resource
 
-def handle_planets():
+def create_planet():
     request_body = request.get_json()
     new_planet = Planet (
             name = request_body["name"],
@@ -78,7 +78,7 @@ def handle_planets():
     db.session.add(new_planet)
     db.session.commit()
 
-    return make_response(f"planet {new_planet.name} succesfully created", 201)
+    return jsonify(f"planet {new_planet.name} succesfully created!"), 201
 
 @planet_bp.route("", methods=['GET'])
 def read_all_planets():
