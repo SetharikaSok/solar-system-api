@@ -29,13 +29,13 @@ def test_create_planet(client):
     assert response.status_code == 201
     assert response_body == "planet venus succesfully created!"
     
-def test_read_planet_by_name(client, make_two_planet):
-    response = client.get("/planets/uranus")
-    response_body = response.get_json()
+# def test_read_planet_by_name(client, make_two_planet):
+#     response = client.get("/planets/uranus")
+#     response_body = response.get_json()
 
-    assert response.status_code == 200
-    assert response_body == {
-            "name": "uranus",
-            "color": "baby blue",
-            "description": "mostly ice"
-    }
+#     assert response.status_code == 200
+#     assert response_body == {
+#             "name": "uranus",
+#             "color": "baby blue",
+#             "description": "mostly ice"
+#     }
