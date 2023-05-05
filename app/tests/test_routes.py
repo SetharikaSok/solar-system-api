@@ -39,3 +39,14 @@ def test_create_planet(client):
 #             "color": "baby blue",
 #             "description": "mostly ice"
 #     }
+def test_delete_planet(client, make_two_planet):
+    response = client.delete("/planets/1")
+    response_body = response.get_json()
+
+    assert response.status_code == 200
+    assert response_body == {
+        "id": 1,
+        "name": "jupiter",
+        "color": "copper",
+        "description": "gas giant with no solid surface"
+    }
