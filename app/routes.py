@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, abort, make_response, request
 from app import db
 from app.models.planet import Planet
+from app.models.moon import Moon
 
 
 
@@ -30,6 +31,7 @@ def validate_model(cls, model_id):
     return model
 
 planet_bp = Blueprint("planets", __name__, url_prefix="/planets")
+moon_bp = Blueprint("moons", __name__, url_prefix="/moons")
 # @planet_bp.route("", methods = ["GET"])
 
 # def handle_planets():
@@ -127,3 +129,65 @@ def delete_planet(planet_id):
 
     return make_response(f"Planet #{planet_id} successfully deleted!")
 
+@moon_bp.route("", methods=['POST'])
+# define a route for creating a crystal resource
+def create_moon():
+    request_body = request.get_json()
+    
+    new_moon = Moon(
+        name=request_body["name"]
+    )
+    
+    db.session.add(new_moon)
+    db.session.commit()
+    
+    return jsonify(f"Yayyyy Moon {new_moon.name} successfully created!"), 201
+
+@moon_bp.route("", methods=["GET"])
+def read_all_moons():
+    
+    moons = Moon.query.all()
+        
+    moons_response = []
+    
+    for moon in moons:
+        moons_response.append({ "name": moon.name, "id": moon.id})
+    
+    return jsonify(moons_response)
+
+
+@planet_bp.route("/<planet_id>/moons", methods=["POST"])
+def create_moon_by_id(planet_id):
+
+    planets = validate_model(Planet, planet_id)
+
+    request_body = request.get_json()
+
+    new_moon = Moon(
+        name=request_body["name"],
+        planets=planets
+    )
+
+    db.session.add(new_moon)
+    db.session.commit()
+
+    return jsonify((f"Planet {new_moon.name} owned by {new_moon.planets.name} was successfully created"), 201)
+
+@planet_bp.route("/<planet_id>/moons", methods=["GET"])   
+def get_all_moons_by_id(planet_id):
+
+    planet = validate_model(Planet, planet_id)
+    
+    moon_response = []
+    for moon in planet.moon:
+        moon_response.append(
+            {
+                "id":moon.id,
+                "name":moon.name
+         
+            }
+        )
+
+    return jsonify(moon_response),200
+#healer = planet
+#crystal = moon 

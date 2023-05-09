@@ -1,4 +1,6 @@
 def test_read_all_planets_returns_empty_list(client):
+    
+
     response = client.get("/planets")
     response_body = response.get_json()
 

@@ -5,6 +5,7 @@ class Planet(db.Model):
     name = db.Column(db.String)
     color = db.Column(db.String)
     description = db.Column(db.String)
+    moon = db.relationship("Moon", back_populates="planets")
 
     @classmethod
     def from_dict(cls, planet_data):
